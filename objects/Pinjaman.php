@@ -1,6 +1,7 @@
 <?php
+
 /**
-*contains properties and methods for "debitur" database queries.
+ *contains properties and methods for "debitur" database queries.
  */
 
 class Pinjaman
@@ -16,7 +17,6 @@ class Pinjaman
     public $tanggal;
     public $jumlah_angsuran;
     public $jumlah_pinjaman;
-    public $input_date;
 
     //Constructor with db conn
     public function __construct($db)
@@ -24,51 +24,47 @@ class Pinjaman
         $this->conn = $db;
     }
 
-    function create(){
- 
+    function create()
+    {
+
         // query to insert record
-        $query = "INSERT INTO
-                    " . $this->table_name . "(debitur_id, tanggal, jumlah_angsuran, jumlah_pinjaman, input_date)
-                VALUES(
-                    :debitur_id, :tanggal, :jumlah_angsuran, :jumlah_pinjaman, :input_date)";
-     
+        $query = "INSERT INTO $this->table_name(debitur_id, tanggal, jumlah_angsuran, jumlah_pinjaman, keterangan)
+                VALUES(:debitur_id, :tanggal, :jumlah_angsuran, :jumlah_pinjaman, :keterangan)";
+
         // prepare query
         $stmt = $this->conn->prepare($query);
-     
+
         // sanitize
-        $this->debitur_id=htmlspecialchars(strip_tags($this->debitur_id));
-        $this->tanggal=htmlspecialchars(strip_tags($this->tanggal));
-        $this->jumlah_angsuran=htmlspecialchars(strip_tags($this->jumlah_angsuran));
-        $this->jumlah_pinjaman=htmlspecialchars(strip_tags($this->jumlah_pinjaman));
-        $this->input_date=htmlspecialchars(strip_tags($this->input_date));
-     
+        $this->debitur_id = htmlspecialchars(strip_tags($this->debitur_id));
+        $this->tanggal = htmlspecialchars(strip_tags($this->tanggal));
+        $this->jumlah_angsuran = htmlspecialchars(strip_tags($this->jumlah_angsuran));
+        $this->jumlah_pinjaman = htmlspecialchars(strip_tags($this->jumlah_pinjaman));
+        $this->keterangan = htmlspecialchars(strip_tags($this->keterangan));
+
         // bind values
         $stmt->bindParam(":debitur_id", $this->debitur_id);
         $stmt->bindParam(":tanggal", $this->tanggal);
         $stmt->bindParam(":jumlah_angsuran", $this->jumlah_angsuran);
         $stmt->bindParam(":jumlah_pinjaman", $this->jumlah_pinjaman);
-        $stmt->bindParam(":input_date", $this->input_date);
-     
+        $stmt->bindParam(":keterangan", $this->keterangan);
+
         // execute query
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return true;
         }
-     
+
         return false;
-         
     }
 
     //Read product
-    function read() {
-
+    function read($debitur_id)
+    {
         //select all
-        $query = "SELECT
-                    *
-                  FROM
-                  " . $this->table_name . "";
+        $query = "SELECT * FROM $this->table_name WHERE debitur_id = :debitur_id";
 
         //prepare
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":debitur_id", $debitur_id);
 
         //execute
         $stmt->execute();
@@ -78,15 +74,11 @@ class Pinjaman
 
 
     //read single product
-    function readOne() {
+    function readOne()
+    {
 
         //read single record
-        $query = "SELECT
-                *
-            FROM
-                " . $this->table_name . " 
-                   WHERE
-                   id=:id";
+        $query = "SELECT * FROM $this->table_name WHERE id=:id";
 
         //prepare
         $stmt = $this->conn->prepare($query);
@@ -106,8 +98,6 @@ class Pinjaman
         $this->tanggal = $row['tanggal'];
         $this->jumlah_angsuran = $row['jumlah_angsuran'];
         $this->jumlah_pinjaman = $row['jumlah_pinjaman'];
-        $this->input_date = $row['input_date'];
+        $this->keterangan = $row['keterangan'];
     }
-
-    
 }

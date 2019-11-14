@@ -17,8 +17,10 @@ $db = $database->getConnection();
 
 $pinjaman = new Pinjaman($db);
 
+$debitur_id = isset($_GET['debitur_id']) ? $_GET['debitur_id'] : die;
+
 //Query products
-$stmt = $pinjaman->read();
+$stmt = $pinjaman->read($debitur_id);
 $num = $stmt->rowCount();
 
 //Check if more than 0 record found
@@ -39,19 +41,19 @@ if ($num > 0) {
         extract($row);
 
         $pinjaman_item = array(
-            "id" => $pinjaman->id,
-            "debitur_id" => $pinjaman->debitur_id,
-            "tanggal" => $pinjaman->tanggal,
-            "jumlah_angsuran" => $pinjaman->jumlah_angsuran,
-            "jumlah_pinjaman" => $pinjaman->jumlah_pinjaman,
-            "input_date" => $pinjaman->input_date
+            "id" => $id,
+            "debitur_id" => $debitur_id,
+            "tanggal" => $tanggal,
+            "jumlah_angsuran" => $jumlah_angsuran,
+            "jumlah_pinjaman" => $jumlah_pinjaman,
+            "keterangan" => $keterangan
         );
 
         array_push($pinjaman_arr["records"], $pinjaman_item);
     }
 
     echo json_encode($pinjaman_arr);
-}else{
+} else {
     echo json_encode(
         array("messege" => "No pinjaman found.")
     );

@@ -17,8 +17,10 @@ $db = $database->getConnection();
 
 $pelunasan = new Pelunasan($db);
 
+$pinjaman_id = isset($_GET['pinjaman_id']) ? $_GET['pinjaman_id'] : die;
+
 //Query products
-$stmt = $pelunasan->read();
+$stmt = $pelunasan->read($pinjaman_id);
 $num = $stmt->rowCount();
 
 //Check if more than 0 record found
@@ -39,19 +41,19 @@ if ($num > 0) {
         extract($row);
 
         $pelunasan_item = array(
-            "id" => $pelunasan->id,
-            "pinjaman_id" => $pelunasan->pinjaman_id,
-            "tanggal" => $pelunasan->tanggal,
-            "angsuran_ke" => $pelunasan->angsuran_ke,
-            "jumlah_bayar" => $pelunasan->jumlah_bayar,
-            "keterangan" => $pelunasan->keterangan
+            "id" => $id,
+            "pinjaman_id" => $pinjaman_id,
+            "tanggal" => $tanggal,
+            "angsuran_ke" => $angsuran_ke,
+            "jumlah_bayar" => $jumlah_bayar,
+            "keterangan" => $keterangan
         );
 
         array_push($pelunasan_arr["records"], $pelunasan_item);
     }
 
     echo json_encode($pelunasan_arr);
-}else{
+} else {
     echo json_encode(
         array("messege" => "No pelunasan found.")
     );

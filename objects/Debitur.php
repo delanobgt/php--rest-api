@@ -1,6 +1,7 @@
 <?php
+
 /**
-*contains properties and methods for "debitur" database queries.
+ *contains properties and methods for "debitur" database queries.
  */
 
 class Debitur
@@ -23,46 +24,42 @@ class Debitur
         $this->conn = $db;
     }
 
-    function create(){
- 
+    function create()
+    {
+
         // query to insert record
-        $query = "INSERT INTO
-                    " . $this->table_name . "(no_ktp, nama, alamat, jenis_kelamin)
-                VALUES(
-                    :no_ktp, :nama, :alamat, :jenis_kelamin)";
-     
+        $query = "INSERT INTO $this->table_name(no_ktp, nama, alamat, jenis_kelamin)
+                VALUES(:no_ktp, :nama, :alamat, :jenis_kelamin)";
+
         // prepare query
         $stmt = $this->conn->prepare($query);
-     
+
         // sanitize
-        $this->no_ktp=htmlspecialchars(strip_tags($this->no_ktp));
-        $this->nama=htmlspecialchars(strip_tags($this->nama));
-        $this->alamat=htmlspecialchars(strip_tags($this->alamat));
-        $this->jenis_kelamin=htmlspecialchars(strip_tags($this->jenis_kelamin));
-     
+        $this->no_ktp = htmlspecialchars(strip_tags($this->no_ktp));
+        $this->nama = htmlspecialchars(strip_tags($this->nama));
+        $this->alamat = htmlspecialchars(strip_tags($this->alamat));
+        $this->jenis_kelamin = htmlspecialchars(strip_tags($this->jenis_kelamin));
+
         // bind values
         $stmt->bindParam(":no_ktp", $this->no_ktp);
         $stmt->bindParam(":nama", $this->nama);
         $stmt->bindParam(":alamat", $this->alamat);
         $stmt->bindParam(":jenis_kelamin", $this->jenis_kelamin);
-     
+
         // execute query
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return true;
         }
-     
+
         return false;
-         
     }
 
     //Read product
-    function read() {
+    function read()
+    {
 
         //select all
-        $query = "SELECT
-                    *
-                  FROM
-                  " . $this->table_name . "";
+        $query = "SELECT * FROM $this->table_name";
 
         //prepare
         $stmt = $this->conn->prepare($query);
@@ -75,15 +72,11 @@ class Debitur
 
 
     //read single product
-    function readOne() {
+    function readOne()
+    {
 
         //read single record
-        $query = "SELECT
-                *
-            FROM
-                " . $this->table_name . " 
-                   WHERE
-                   id=:id";
+        $query = "SELECT * FROM $this->table_name WHERE id = :id";
 
         //prepare
         $stmt = $this->conn->prepare($query);
@@ -104,6 +97,4 @@ class Debitur
         $this->alamat = $row['alamat'];
         $this->jenis_kelamin = $row['jenis_kelamin'];
     }
-
-    
 }

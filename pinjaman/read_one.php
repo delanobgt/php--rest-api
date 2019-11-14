@@ -20,7 +20,7 @@ $db = $database->getConnection();
 $pinjaman = new Pinjaman($db);
 
 //Set ID of product to be edited
-$pinjaman->id = isset($_GET['id']) ? $_GET['id']: die;
+$pinjaman->id = isset($_GET['id']) ? $_GET['id'] : die;
 
 //Read details of edited product
 $pinjaman->readOne();
@@ -32,7 +32,7 @@ $pinjaman_arr = array(
     "tanggal" => $pinjaman->tanggal,
     "jumlah_angsuran" => $pinjaman->jumlah_angsuran,
     "jumlah_pinjaman" => $pinjaman->jumlah_pinjaman,
-    "input_date" => $pinjaman->input_date
+    "keterangan" => $pinjaman->keterangan
 );
 
 print_r(json_encode($pinjaman_arr));

@@ -23,7 +23,7 @@ $pinjaman->debitur_id = $data->debitur_id;
 $pinjaman->tanggal = $data->tanggal;
 $pinjaman->jumlah_angsuran = $data->jumlah_angsuran;
 $pinjaman->jumlah_pinjaman = $data->jumlah_pinjaman;
-$pinjaman->input_date = $data->input_date;
+$pinjaman->keterangan = $data->keterangan;
 
 if ($pinjaman->create()) {
     print(json_encode(['message' => 'Pinjaman saved.']));
