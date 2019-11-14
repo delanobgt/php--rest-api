@@ -24,8 +24,19 @@ $debitur->nama = $data->nama;
 $debitur->alamat = $data->alamat;
 $debitur->jenis_kelamin = $data->jenis_kelamin;
 
-if ($debitur->create()) {
-    print(json_encode(['message' => 'Debitur saved.']));
+$lastId = $debitur->create();
+
+if ($lastId !== null) {
+    //Create array
+    $debitur_arr = array(
+        "id" => $lastId,
+        "no_ktp" => $debitur->no_ktp,
+        "nama" => $debitur->nama,
+        "alamat" => $debitur->alamat,
+        "jenis_kelamin" => $debitur->jenis_kelamin
+    );
+
+    print_r(json_encode($debitur_arr));
 } else {
     print(json_encode(['message' => 'Please try again.']));
 }
