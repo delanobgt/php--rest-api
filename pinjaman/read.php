@@ -28,7 +28,6 @@ if ($num > 0) {
 
     //products array
     $pinjaman_arr = array();
-    $pinjaman_arr["records"] = array();
 
     //retrieve table content
     // Difference fetch() vs fetchAll()
@@ -49,7 +48,7 @@ if ($num > 0) {
             "keterangan" => $keterangan
         );
 
-        array_push($pinjaman_arr["records"], $pinjaman_item);
+        array_push($pinjaman_arr, $pinjaman_item);
     }
 
     echo json_encode($pinjaman_arr);

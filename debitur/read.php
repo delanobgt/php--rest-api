@@ -26,7 +26,6 @@ if ($num > 0) {
 
     //products array
     $debitur_arr = array();
-    $debitur_arr["records"] = array();
 
     //retrieve table content
     // Difference fetch() vs fetchAll()
@@ -46,11 +45,11 @@ if ($num > 0) {
             "jenis_kelamin"     =>  $jenis_kelamin,
         );
 
-        array_push($debitur_arr["records"], $debitur_item);
+        array_push($debitur_arr, $debitur_item);
     }
 
     echo json_encode($debitur_arr);
-}else{
+} else {
     echo json_encode(
         array("messege" => "No debitur found.")
     );
